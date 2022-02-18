@@ -122,9 +122,10 @@ class Mastermind
             end
             highest_hit_count = hit_counts.values.max || 0
 
-            membership_value = potential_patterns.include?(possible_guess) ? 0 : 1
+            # 0 will ensure we pull grab only a valid min guess
+            valid = potential_patterns.include?(possible_guess) ? 0 : 1
 
-            [highest_hit_count, membership_value, possible_guess]
+            [highest_hit_count, valid, possible_guess]
         end
 
         return possible_guesses.min.last        
