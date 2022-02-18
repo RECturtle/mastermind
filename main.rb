@@ -4,7 +4,7 @@
 # Also, the computer always wins if that is selected, but was more interested
 # in implementing the algo than a fair game :) 
 class Mastermind
-    OPTIONS = %w[1 2 3 4 5 6]
+    OPTIONS = ["1", "2", "3", "4", "5", "6"]
     SIZE = 4
     POSSIBLE_PATTERNS = OPTIONS.product(*Array.new(SIZE - 1) { OPTIONS })
 
@@ -117,15 +117,15 @@ class Mastermind
     # Learning how to identify the next best guess was difficult, but google was helpful :) 
     def generate_guess(unused_patterns, potential_patterns)
         possible_guesses = unused_patterns.map do |possible_guess|
-            hit_counts = potential_patterns.each_with_object(Hash.new(0)) do |potential_pattern, counts|
+            hits = potential_patterns.each_with_object(Hash.new(0)) do |potential_pattern, counts|
                 counts[clue_check(potential_pattern, possible_guess)] += 1
             end
-            highest_hit_count = hit_counts.values.max || 0
+            max_hits = hits.values.max || 0
 
             # 0 will ensure we pull grab only a valid min guess
             valid = potential_patterns.include?(possible_guess) ? 0 : 1
 
-            [highest_hit_count, valid, possible_guess]
+            [max_hits, valid, possible_guess]
         end
 
         return possible_guesses.min.last        
